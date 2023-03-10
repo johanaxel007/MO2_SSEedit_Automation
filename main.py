@@ -14,6 +14,8 @@ def read_or_create_file(_path):
         _contents = read_file_to_list(_path)
     else:
         write_list_to_file(_path, [])
+    # Remove empty strings
+    _contents = [i for i in _contents if i]
     return _contents
 
 
@@ -39,7 +41,7 @@ def start_xedit(shortcut: str):
         try:
             text = xedit_script_window.Edit.get_value()
         except findbestmatch.MatchError:
-            print("Warning: Couldn't find the output window, waiting a but longer")
+            print("Warning: Couldn't find the output window, waiting a little longer")
 
         quit_index = text.rfind('You can close this application now.')
         return quit_index > 0
@@ -54,6 +56,7 @@ def start_xedit(shortcut: str):
     try:
         wait_until(240, 2, ensure_finished)
         time.sleep(5)
+        print("Done: Saving plugin")
         xedit_script_window.close()
     except TimeoutError:
         print("Error: Timed out")
@@ -76,8 +79,9 @@ if __name__ == '__main__':
     plugin_whitelist = read_or_create_file(whitelist_file_path)
     plugin_blacklist = read_or_create_file(blacklist_file_path)
 
+
     # Cache (Separate cache when whitelist is used)
-    if len(plugin_whitelist) == 0:
+    if not plugin_whitelist:
         plugin_cache = read_or_create_file(cache_file_path)
     else:
         plugin_cache = read_or_create_file(cache_whitelist_file_path)
@@ -91,7 +95,7 @@ if __name__ == '__main__':
     for index, plugin in enumerate(plugins_inactive):
         print(f"{(index + 1):04d} / {plugin_count:04d} | {plugin}")
         # Check if whitelist is used
-        if len(plugin_whitelist) != 0 and plugin not in plugin_whitelist:
+        if plugin_whitelist and plugin not in plugin_whitelist:
             print(f"Warning: {plugin} is not in whitelist, skipping.\n")
             continue
 
