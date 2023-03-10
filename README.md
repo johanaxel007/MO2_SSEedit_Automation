@@ -3,6 +3,8 @@
 ## Getting started
 ### Requirements
 - Python 3.10 (Other versions should also work, but has only been tested on 3.10)
+- xEdit v4.0.4+ or any of its variations (SSEedit, FNVedit, ...)
+- Mod Organiser 2 (Vortex or stand alone should also work, see `plugins_path` and `xedit_shortcut` in [Project setup](#project-setup))
 
 ### Warnings & acknowledges
 The script was made for my personal use, bugs may exist and I may or may not fix them. From my usage the code is stable but still, use at your own risk.
@@ -28,16 +30,17 @@ To automate the Wrye Bash tag generation, I have used a modified version of [Wry
 
 4. Set up the variables in `main.py` (default values shown):
    - plugins_path = `r"K:\Games\Mod Organizer 2\Skyrim Special Edition\profiles\Default\plugins.txt"`
-     - Path to your load order file (in MO2):
-       1. Show Open Folders menu
-       2. Open Profile folder
-       3. plugins.txt
+     - Path to your plugin load order file
+       - For MO2 users:
+         1. Show Open Folders menu
+         2. Open Profile folder
+         3. plugins.txt
 
    - plugins_backup_path = `r"K:\Games\Mod Organizer 2\Skyrim Special Edition\profiles\Default\plugins.txt.bak"`
      - Path where a backup is created of your load order.
 
    - xedit_shortcut = `r'I:\!Tools\!Mod_Organizer_2\ModOrganizer.exe "moshortcut://Skyrim Special Edition:SSEEdit - Write Bash Tags"'`
-     - Executable or MO2 shortcut to xEdit, this is wat's executed for each plugin.
+     - Executable or MO2 shortcut to xEdit, this is what's executed for each plugin.
        - My MO2 shortcut arguments: `-autoload -IKnowWhatImDoing -C:"K:\Games\Mod Organizer 2\Skyrim Special Edition\mods\SSE Edit Data\SSEEdit Cache\" -B:"K:\Games\Mod Organizer 2\Skyrim Special Edition\mods\SSE Edit Data\SSEEdit Backups\" -script:"WryeBashTagGenerator - Automated.pas"`
        - `-autoload` and `-script` are the two things that made this work.
        
