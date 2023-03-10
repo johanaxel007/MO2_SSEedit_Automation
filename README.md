@@ -9,7 +9,11 @@ The script was made for my personal use, bugs may exist and I may or may not fix
 
 It can and probably will mess up your active plugin state for your load order, so it's best to manually **create a back-up** of this.  
 
-To automate the Wrye Bash tag generation, I have used a modified version of [WryeBashTagGenerator](https://github.com/fireundubh/WryeBashTagGenerator) from fireundubh. The modified version skips the options pop-up and always writes the tags to the plugin header.
+To automate the Wrye Bash tag generation, I have used a modified version of [WryeBashTagGenerator](https://github.com/fireundubh/WryeBashTagGenerator) from fireundubh. The modified version skips the options pop-up and always writes the tags to the plugin header.  
+
+    For WryeBashTagGenerator script version 1.6.4.7:
+        Set line 113 (g_AddTags) to True
+        Commenting out lines 136 to 141 (ShowPrompt) by prefixing // to the code
 
 ### Project setup
 1. Create a Python venv: `python -m venv venv`
