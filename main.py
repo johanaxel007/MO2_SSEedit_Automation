@@ -8,30 +8,29 @@ from pywinauto.timings import wait_until
 from utils import read_file_to_list, write_list_to_file
 
 
-def load_plugins(path):
-    plugins_load = read_file_to_list(path)
-    return plugins_load
+def read_or_create_file(_path):
+    _contents = []
+    if os.path.isfile(_path):
+        _contents = read_file_to_list(_path)
+    else:
+        write_list_to_file(_path, [])
+    return _contents
 
 
-def load_cache(path):
-    cache_load = read_file_to_list(path)
-    return cache_load
+def set_plugins_inactive(_plugins: list):
+    for _plugin_index, _plugin in enumerate(_plugins):
+        _plugins[_plugin_index] = str.lstrip(_plugin, '*')
+    return _plugins
 
 
-def set_plugins_inactive(plugins: list):
-    for plugin_index, plugin in enumerate(plugins):
-        plugins[plugin_index] = str.lstrip(plugin, '*')
-    return plugins
+def set_plugin_active(_plugins: list, _plugin_index: int):
+    _plugins[_plugin_index] = '*' + plugin
+    return _plugins
 
 
-def set_plugin_active(plugins: list, plugin_index: int):
-    plugins[plugin_index] = '*' + plugin
-    return plugins
-
-
-def set_plugin_inactive(plugins: list, plugin_index: int):
-    plugins[plugin_index] = str.lstrip(plugin, '*')
-    return plugins
+def set_plugin_inactive(_plugins: list, _plugin_index: int):
+    _plugins[_plugin_index] = str.lstrip(plugin, '*')
+    return _plugins
 
 
 def start_xedit(shortcut: str):
@@ -40,7 +39,7 @@ def start_xedit(shortcut: str):
         try:
             text = xedit_script_window.Edit.get_value()
         except findbestmatch.MatchError:
-            print("Error: Couldn't find the output window")
+            print("Warning: Couldn't find the output window, waiting a but longer")
 
         quit_index = text.rfind('You can close this application now.')
         return quit_index > 0
@@ -67,26 +66,22 @@ if __name__ == '__main__':
     plugins_backup_path = r"K:\Games\Mod Organizer 2\Skyrim Special Edition\profiles\Default\plugins.txt.bak"
     xedit_shortcut = r'I:\!Tools\!Mod_Organizer_2\ModOrganizer.exe "moshortcut://Skyrim Special Edition:SSEEdit - Write Bash Tags"'
     cache_file_path = r'./plugin_cache.txt'
+    cache_whitelist_file_path = r'./plugin_cache_whitelist.txt'
+    whitelist_file_path = r'./plugin_whitelist.txt'
+    blacklist_file_path = r'./plugin_blacklist.txt'
 
-    plugin_blacklist = [
-        'Unofficial Skyrim Special Edition Patch.esp',
-        'DynDOLOD.esm',
-        'Bashed Patch, 0.esp',
-        'WACCF_Spetim_to_gold_patch.esp',
-        'Modern Brawl Bug Fix.esp',
-        'Synthesis.esp',
-        'DynDOLOD.esp',
-        'Occlusion.esp'
-    ]
-
-    plugins_raw = load_plugins(plugins_path)
+    plugins_raw = read_file_to_list(plugins_path)
     write_list_to_file(plugins_backup_path, plugins_raw)
 
-    plugin_cache = []
-    if os.path.isfile(cache_file_path):
-        plugin_cache = load_cache(cache_file_path)
+    plugin_whitelist = read_or_create_file(whitelist_file_path)
+    plugin_blacklist = read_or_create_file(blacklist_file_path)
+
+    # Cache (Separate cache when whitelist is used)
+    if len(plugin_whitelist) == 0:
+        plugin_cache = read_or_create_file(cache_file_path)
     else:
-        write_list_to_file(cache_file_path, [])
+        plugin_cache = read_or_create_file(cache_whitelist_file_path)
+        cache_file_path = cache_whitelist_file_path
 
     plugins = plugins_raw[1:]
     plugins_inactive = set_plugins_inactive(plugins)
@@ -95,6 +90,11 @@ if __name__ == '__main__':
 
     for index, plugin in enumerate(plugins_inactive):
         print(f"{(index + 1):04d} / {plugin_count:04d} | {plugin}")
+        # Check if whitelist is used
+        if len(plugin_whitelist) != 0 and plugin not in plugin_whitelist:
+            print(f"Warning: {plugin} is not in whitelist, skipping.\n")
+            continue
+
         # Check if cached
         if plugin in plugin_cache:
             print(f"Warning: {plugin} is in cache, skipping.\n")

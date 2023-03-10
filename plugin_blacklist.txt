@@ -1,0 +1,8 @@
+Unofficial Skyrim Special Edition Patch.esp
+DynDOLOD.esm
+Bashed Patch 0.esp
+WACCF_Spetim_to_gold_patch.esp
+Modern Brawl Bug Fix.esp
+Synthesis.esp
+DynDOLOD.esp
+Occlusion.esp

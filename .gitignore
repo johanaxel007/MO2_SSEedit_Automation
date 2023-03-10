@@ -1,5 +1,7 @@
 # Own resources
 \plugin_cache.txt
+\plugin_cache_whitelist.txt
+\plugin_whitelist.txt
 
 # InteliJ stuff
 .idea
