@@ -28,37 +28,47 @@ To automate the Wrye Bash tag generation, I have used a modified version of [Wry
 3. Install the dependencies: `pip install -r requirements.txt`
 
 
-4. Set up the variables in `main.py` (default values shown):
-   - plugins_path = `r"K:\Games\Mod Organizer 2\Skyrim Special Edition\profiles\Default\plugins.txt"`
+4. Set up the variables in `settings.ini` (default values shown):
+   - plugins_path = `K:\Games\Mod Organizer 2\Skyrim Special Edition\profiles\Default\plugins.txt`
      - Path to your plugin load order file
        - For MO2 users:
          1. Show Open Folders menu
          2. Open Profile folder
          3. plugins.txt
 
-   - plugins_backup_path = `r"K:\Games\Mod Organizer 2\Skyrim Special Edition\profiles\Default\plugins.txt.bak"`
+   - plugins_backup_path = `K:\Games\Mod Organizer 2\Skyrim Special Edition\profiles\Default\plugins.txt.bak`
      - Path where a backup is created of your load order.
 
-   - xedit_shortcut = `r'I:\!Tools\!Mod_Organizer_2\ModOrganizer.exe "moshortcut://Skyrim Special Edition:SSEEdit - Write Bash Tags"'`
-     - Executable or MO2 shortcut to xEdit, this is what's executed for each plugin.
-       - My MO2 shortcut arguments: `-autoload -IKnowWhatImDoing -C:"K:\Games\Mod Organizer 2\Skyrim Special Edition\mods\SSE Edit Data\SSEEdit Cache\" -B:"K:\Games\Mod Organizer 2\Skyrim Special Edition\mods\SSE Edit Data\SSEEdit Backups\" -script:"WryeBashTagGenerator - Automated.pas"`
-       - `-autoload` and `-script` are the two things that made this work.
-       
-   - cache_file_path = `r'./plugin_cache.txt'`
+   - mo2_executable_path = `I:\!Tools\!Mod_Organizer_2\ModOrganizer.exe`
+     - Path to Mod Organizer 2 executable (exe).
+
+   - xedit_executable_path = `I:\Games\Mod Organizer 2\Skyrim Special Edition\!Tools\SSEEdit\SSEEdit.exe`
+     - Path to xEdit executable (exe).
+
+   - xedit_cache_path = `K:\Games\Mod Organizer 2\Skyrim Special Edition\mods\SSE Edit Data\SSEEdit Cache\`
+     - Path to where xEdit should store its cache. (Optional)
+
+   - xedit_backup_path = `K:\Games\Mod Organizer 2\Skyrim Special Edition\mods\SSE Edit Data\SSEEdit Backups\`
+     - Path to where xEdit should store its plugin backups. (Optional)
+
+   - xedit_script = `WryeBashTagGenerator - Automated.pas`
+     - Name of the xEdit script to be run on each plugin.
+   
+   - cache_file_path = `./plugin_cache.txt`
      - Path to where the done plugins cache is stored, by default it's in the same directory as the python script.
      - You can safely delete this file as a new empty one will be generated when missing.
      - **WARNING**: Any plugin in this file will be skipped. You can safely delete this file as a new empty one will be generated when missing.
-     
-   - cache_whitelist_file_path = `r'./plugin_cache_whitelist.txt'`
+ 
+   - cache_whitelist_file_path = `./plugin_cache_whitelist.txt`
      - Path to where the done plugins cache when using the whitelist is stored, by default it's in the same directory as the python script.
      - **WARNING**: Any plugin in this file will be skipped, even if it's in the whitelist. You can safely delete this file as a new empty one will be generated when missing.
-     
-   - whitelist_file_path = `r'./plugin_whitelist.txt'`
+ 
+   - whitelist_file_path = `./plugin_whitelist.txt`
      - Path to where the plugin whitelist is read from, by default it's in the same directory as the python script.
-     - **INFO**: `dir /b *.esl *.esp *.esm > plugin_list.txt` can help generate this file, copy the output it gives into the whitelist file.
+     - **INFO**: `dir /b *.esl *.esp *.esm >> "I:\Games\Mod Organizer 2\!Tools\_Projects\MO2_SSEedit_Automation\plugin_whitelist.txt"` can help generate this file, copy the output it gives into the whitelist file.
      - **WARNING**: When this file contains any plugin names, only these plugins will be processed. You can safely delete this file as a new empty one will be generated when missing.
-     
-   - blacklist_file_path = `r'./plugin_blacklist.txt'`
+ 
+   - blacklist_file_path = `./plugin_blacklist.txt`
      - Path to where the plugin blacklist is read from, by default it's in the same directory as the python script.
      - The blacklist I use is given as an example.
      - **WARNING**: Any plugin in this file will be skipped, even if it's in the whitelist. You can safely delete this file as a new empty one will be generated when missing.
