@@ -65,7 +65,9 @@ To automate the Wrye Bash tag generation, I have used a modified version of [Wry
  
    - whitelist_file_path = `./plugin_whitelist.txt`
      - Path to where the plugin whitelist is read from, by default it's in the same directory as the python script.
-     - **INFO**: `dir /b *.esl *.esp *.esm >> "I:\Games\Mod Organizer 2\!Tools\_Projects\MO2_SSEedit_Automation\plugin_whitelist.txt"` can help generate this file, copy the output it gives into the whitelist file.
+	 - **INFO**: The following commands can help generate this file, change the path to where your plugin whitelist file is stored.
+		- **CMD**: `dir /b *.esl *.esp *.esm >> "I:\Games\Mod Organizer 2\!Tools\_Projects\MO2_SSEedit_Automation\plugin_whitelist.txt"`
+		- **Powershell**: `(dir .\ | where {$_.extension -in ".esl", ".esp", ".esm"}).name | Out-File "I:\Games\Mod Organizer 2\!Tools\_Projects\MO2_SSEedit_Automation\plugin_whitelist.txt" -Append`
      - **WARNING**: When this file contains any plugin names, only these plugins will be processed. You can safely delete this file as a new empty one will be generated when missing.
  
    - blacklist_file_path = `./plugin_blacklist.txt`
