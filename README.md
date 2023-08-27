@@ -80,3 +80,7 @@ To automate the Wrye Bash tag generation, I have used a modified version of [Wry
    - `python .\main.py` in a console window
    - The code should now be running, xEdit windows should pop up to run the script, do not close these manually unless they are stuck for 5+ minutes.
    - It's best to not use your computer when this script is running.
+
+
+### Ideas
+- Add elapsed time metric when script finishes

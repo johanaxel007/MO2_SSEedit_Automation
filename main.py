@@ -164,7 +164,7 @@ if __name__ == '__main__':
                 command += f'-script:\\"{xedit_script}\\" -autoload""'
                 start_xedit(command)
                 return True
-            except:
+            except Exception:  # This still allows to exit by CTRL + C
                 print_dated(f"Error: xEdit failure | Try {(retries + 1)} / 3")
                 retries += 1
                 try_again(retries)
